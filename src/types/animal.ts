@@ -1,8 +1,8 @@
 export type RiskLevel = "normal" | "attention" | "risk";
 
 export type AnimalHistoryEntry = {
-  dayLabel: string;
-  status: RiskLevel;
+  timestamp: string;
+  activityLevel: number; // 0-100
 };
 
 export type Animal = {

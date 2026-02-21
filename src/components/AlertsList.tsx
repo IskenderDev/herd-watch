@@ -12,7 +12,7 @@ export default function AlertsList({ alerts }: AlertsListProps) {
   if (alerts.length === 0) {
     return (
       <div className="text-center py-8 text-muted-foreground">
-        Нет активных алертов 🎉
+        Нет активных алертов
       </div>
     );
   }

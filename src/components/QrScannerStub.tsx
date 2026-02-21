@@ -43,12 +43,12 @@ export default function QrScannerStub({ onScan }: QrScannerStubProps) {
       <div className="relative aspect-square max-w-[280px] mx-auto bg-muted rounded-2xl border-2 border-dashed border-border flex items-center justify-center overflow-hidden">
         {scanning ? (
           <div className="text-center space-y-2">
-            <div className="text-4xl animate-pulse-soft">📷</div>
+            <div className="text-4xl animate-pulse-soft">QR</div>
             <p className="text-sm text-muted-foreground">Сканирование...</p>
           </div>
         ) : (
           <div className="text-center space-y-2 p-4">
-            <div className="text-4xl">📷</div>
+            <div className="text-4xl">QR</div>
             <p className="text-sm text-muted-foreground">
               Наведите камеру на QR-код бирки
             </p>
@@ -61,7 +61,7 @@ export default function QrScannerStub({ onScan }: QrScannerStubProps) {
         disabled={scanning}
         className="w-full min-h-[56px] bg-primary text-primary-foreground rounded-xl font-bold text-lg shadow-md active:scale-[0.97] transition-transform disabled:opacity-50"
       >
-        {scanning ? "Сканирую..." : "📷 Сканировать QR-код"}
+        {scanning ? "Сканирую..." : "Сканировать QR-код"}
       </button>
 
       {error && (

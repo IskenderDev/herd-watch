@@ -2,12 +2,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAnimalsContext } from "@/context/AnimalsContext";
 import QrScannerStub from "@/components/QrScannerStub";
+import { useBluetooth } from "@/hooks/useBluetooth";
 
 export default function AddTagPage() {
   const navigate = useNavigate();
   const { addAnimal } = useAnimalsContext();
   const [showManual, setShowManual] = useState(false);
   const [manualId, setManualId] = useState("");
+  const { availableDevices, connectedDevice, isConnecting, error, connectDevice } = useBluetooth();
 
   const handleScan = (tagId: string) => {
     const newId = addAnimal(tagId);
@@ -21,6 +23,10 @@ export default function AddTagPage() {
     navigate(`/animal/${newId}`);
   };
 
+  const handleBluetoothConnect = async () => {
+    await connectDevice();
+  };
+
   return (
     <div className="space-y-6">
       <div>
@@ -32,13 +38,49 @@ export default function AddTagPage() {
 
       <QrScannerStub onScan={handleScan} />
 
+      <div className="space-y-3 bg-card rounded-xl p-4 shadow-sm border border-border">
+        <h2 className="text-sm font-semibold text-foreground">Добавление по Bluetooth</h2>
+        <button
+          onClick={handleBluetoothConnect}
+          disabled={isConnecting}
+          className="w-full min-h-[48px] bg-secondary text-secondary-foreground rounded-xl font-semibold shadow active:scale-[0.97] transition-transform disabled:opacity-50"
+        >
+          {isConnecting ? "Подключение..." : "Подключить устройство"}
+        </button>
+
+        {error && (
+          <div className="bg-destructive/10 text-destructive rounded-xl p-3 text-sm">
+            {error}
+          </div>
+        )}
+
+        {connectedDevice && (
+          <div className="text-sm text-foreground">
+            Подключено: <span className="font-semibold">{connectedDevice.name}</span>
+          </div>
+        )}
+
+        {availableDevices.length > 0 && (
+          <div className="space-y-1">
+            <p className="text-xs text-muted-foreground">Найденные устройства:</p>
+            <ul className="text-sm text-foreground space-y-1">
+              {availableDevices.map((device) => (
+                <li key={device.id} className="truncate">
+                  {device.name}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+
       {/* Manual fallback */}
       <div className="text-center">
         <button
           onClick={() => setShowManual((v) => !v)}
           className="text-sm text-muted-foreground underline underline-offset-2"
         >
-          ⌨️ Ввести ID вручную
+          Ввести ID вручную
         </button>
       </div>
 
