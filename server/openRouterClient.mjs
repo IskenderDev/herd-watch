@@ -2,13 +2,20 @@ const DEFAULT_OPENROUTER_URL = "https://openrouter.ai/api/v1";
 
 function buildSystemPrompt(payload) {
   const assistantRole =
-    "Ты ИИ-ассистент для фермеров КРС в Кыргызстане. Объясняй просто, как практичный ветврач.";
+    "Ты ИИ-ассистент для фермеров КРС в Кыргызстане. Объясняй очень просто и кратко, как практичный ветврач. Пиши максимум 5–7 коротких предложений, без воды.";
 
   if (payload.contextType === "cow") {
-    return `${assistantRole}\n\nКонтекст: отдельная корова.\nID коровы: ${payload.cowId || "не указан"}.\nСводка: ${payload.cowSummary || "нет данных"}.\nДай практичные, приоритетные шаги и отметь, когда нужен очный ветеринар.`;
+    return `${assistantRole}
+Контекст: отдельная корова.
+ID коровы: ${payload.cowId || "не указан"}.
+Сводка: ${payload.cowSummary || "нет данных"}.
+Дай только самые важные практичные шаги и явно отметь, когда нужен очный ветеринар.`;
   }
 
-  return `${assistantRole}\n\nКонтекст: всё стадо.\nСводка по стаду: ${payload.herdSummary || "нет данных"}.\nВыдели топ-3 проблемы, риски и краткий план действий на сегодня.`;
+  return `${assistantRole}
+Контекст: всё стадо.
+Сводка по стаду: ${payload.herdSummary || "нет данных"}.
+Выдели строго топ-3 проблемы/риска и очень краткий план действий на сегодня.`;
 }
 
 export async function callOpenRouterChat(payload) {
@@ -21,7 +28,14 @@ export async function callOpenRouterChat(payload) {
     throw new Error("OPENROUTER_API_KEY не задан. Добавьте ключ в переменные окружения сервера.");
   }
 
+  // обрезаем историю, чтобы не слать огромный контекст каждый раз
+  const recentMessages = Array.isArray(payload.messages)
+    ? payload.messages.slice(-4)
+    : payload.messages;
+
   console.log("[AI] Sending request to OpenRouter...");
+  const startedAt = Date.now();
+
   const response = await fetch(`${baseUrl}/chat/completions`, {
     method: "POST",
     headers: {
@@ -32,13 +46,14 @@ export async function callOpenRouterChat(payload) {
       model: "deepseek/deepseek-r1-0528:free",
       messages: [
         { role: "system", content: buildSystemPrompt(payload) },
-        ...payload.messages,
+        ...recentMessages,
       ],
-      temperature: 0.7,
+      temperature: 0.5,   // меньше болтовни
+      max_tokens: 180,    // ограничиваем длину ответа
     }),
   });
 
-  console.log("[AI] Response received");
+  console.log("[AI] Response received in", Date.now() - startedAt, "ms");
 
   if (!response.ok) {
     const errorText = await response.text();
