@@ -1,40 +1,63 @@
+import clsx from "clsx";
+import { DashboardFilter } from "./StatusCard";
+import StatusCard from "./StatusCard";
+
 interface HerdStatusSummaryProps {
   normal: number;
   attention: number;
   risk: number;
+  activeFilter: DashboardFilter;
+  onFilterChange: (filter: DashboardFilter) => void;
 }
 
-export default function HerdStatusSummary({ normal, attention, risk }: HerdStatusSummaryProps) {
-  return (
-    <div className="grid grid-cols-3 gap-3">
-      <StatusCard count={normal} label="В норме" variant="normal" />
-      <StatusCard count={attention} label="Внимание" variant="attention" />
-      <StatusCard count={risk} label="Риск" variant="risk" />
-    </div>
-  );
-}
-
-function StatusCard({
-  count,
-  label,
-  variant,
-}: {
-  count: number;
-  label: string;
-  variant: "normal" | "attention" | "risk";
-}) {
-  const colors = {
-    normal: "bg-normal text-normal-foreground",
-    attention: "bg-attention text-attention-foreground",
-    risk: "bg-risk text-risk-foreground",
+export default function HerdStatusSummary({
+  normal,
+  attention,
+  risk,
+  activeFilter,
+  onFilterChange,
+}: HerdStatusSummaryProps) {
+  const handleFilterClick = (value: Exclude<DashboardFilter, "all">) => {
+    onFilterChange(activeFilter === value ? "all" : value);
   };
 
   return (
-    <div
-      className={`${colors[variant]} rounded-2xl p-4 text-center shadow-md`}
-    >
-      <div className="text-3xl font-extrabold">{count}</div>
-      <div className="text-xs font-medium mt-1 opacity-90">{label}</div>
+    <div className="space-y-3">
+      <div className="grid grid-cols-3 gap-4">
+        <StatusCard
+          count={normal}
+          label="В норме"
+          filterValue="normal"
+          isActive={activeFilter === "normal"}
+          onClick={() => handleFilterClick("normal")}
+        />
+        <StatusCard
+          count={attention}
+          label="Внимание"
+          filterValue="warning"
+          isActive={activeFilter === "warning"}
+          onClick={() => handleFilterClick("warning")}
+        />
+        <StatusCard
+          count={risk}
+          label="Риск"
+          filterValue="risk"
+          isActive={activeFilter === "risk"}
+          onClick={() => handleFilterClick("risk")}
+        />
+      </div>
+
+      <button
+        onClick={() => onFilterChange("all")}
+        className={clsx(
+          "rounded-full px-3 py-1 text-sm font-medium transition-all duration-200",
+          activeFilter === "all"
+            ? "bg-green-600 text-white"
+            : "bg-gray-100 text-gray-700 hover:bg-gray-200",
+        )}
+      >
+        Все
+      </button>
     </div>
   );
 }
