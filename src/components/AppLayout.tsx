@@ -1,9 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
 
 const navItems = [
-  { path: "/", label: "🏠 Стадо" },
-  { path: "/add-tag", label: "➕ Бирка" },
-  { path: "/settings", label: "⚙️" },
+  { path: "/", label: "Стадо" },
+  { path: "/add-tag", label: "Бирка" },
+  { path: "/settings", label: "Настройки" },
 ];
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
@@ -15,7 +15,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <header className="sticky top-0 z-50 bg-card border-b border-border px-4 py-3">
         <div className="container flex items-center justify-between">
           <h1 className="text-lg font-bold text-foreground tracking-tight">
-            🐄 МалМон
+            CattleAI
           </h1>
           <span className="text-xs text-muted-foreground">MVP</span>
         </div>

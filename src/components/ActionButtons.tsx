@@ -8,9 +8,9 @@ interface ActionButtonsProps {
 }
 
 const actions = [
-  { key: "checked" as const, emoji: "✅", label: "Проверил" },
-  { key: "treatment" as const, emoji: "🩺", label: "Лечим" },
-  { key: "false_alarm" as const, emoji: "❌", label: "Ложная тревога" },
+  { key: "checked" as const, label: "Проверил" },
+  { key: "treatment" as const, label: "Лечение" },
+  { key: "false_alarm" as const, label: "Ложная тревога" },
 ];
 
 const toastMessages = {
@@ -32,7 +32,7 @@ export default function ActionButtons({ animalId, lastAction, onAction }: Action
     <div className="space-y-2 mt-4">
       <h3 className="text-sm font-semibold text-foreground">Действия</h3>
       <div className="grid grid-cols-1 gap-2">
-        {actions.map(({ key, emoji, label }) => (
+        {actions.map(({ key, label }) => (
           <button
             key={key}
             onClick={() => handleClick(key)}
@@ -42,7 +42,7 @@ export default function ActionButtons({ animalId, lastAction, onAction }: Action
                 : "bg-card text-foreground border border-border hover:bg-accent"
             }`}
           >
-            {emoji} {label}
+            {label}
           </button>
         ))}
       </div>

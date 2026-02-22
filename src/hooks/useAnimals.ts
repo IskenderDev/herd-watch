@@ -30,7 +30,7 @@ export function useAnimals() {
       reason: "Только что добавлено",
       usualActivityLevel: 50,
       currentActivityLevel: 50,
-      history: [{ dayLabel: "Сегодня", status: "normal" }],
+      history: [{ timestamp: "Сейчас", activityLevel: 50 }],
     };
     setAnimals((prev) => [...prev, newAnimal]);
     return newId;
