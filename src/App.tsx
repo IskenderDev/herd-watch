@@ -8,6 +8,7 @@ import DashboardPage from "@/pages/DashboardPage";
 import AnimalPage from "@/pages/AnimalPage";
 import AddTagPage from "@/pages/AddTagPage";
 import SettingsPage from "@/pages/SettingsPage";
+import AiAssistantPage from "@/pages/AiAssistantPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
               <Route path="/animal/:id" element={<AnimalPage />} />
               <Route path="/add-tag" element={<AddTagPage />} />
               <Route path="/settings" element={<SettingsPage />} />
+              <Route path="/ai-assistant" element={<AiAssistantPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </AppLayout>

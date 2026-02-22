@@ -71,3 +71,11 @@ Yes, you can!
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+
+## AI chat setup (OpenRouter)
+
+1. Create `.env` from `.env.example` and set `OPENROUTER_API_KEY`.
+2. Run backend proxy: `npm run server`.
+3. Run frontend: `npm run dev`.
+
+Frontend sends requests to `/api/ai/chat`, and the proxy forwards them to OpenRouter using model `deepseek/deepseek-r1-0528:free`.
