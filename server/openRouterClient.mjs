@@ -19,7 +19,7 @@ ID коровы: ${payload.cowId || "не указан"}.
 }
 
 export async function callOpenRouterChat(payload) {
-  const apiKey = process.env.OPENROUTER_API_KEY;
+  const apiKey = "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";
   const baseUrl = process.env.OPENROUTER_BASE_URL || DEFAULT_OPENROUTER_URL;
 
   console.log("[AI] ENV exists:", !!apiKey);
