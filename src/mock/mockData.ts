@@ -107,12 +107,12 @@ export const mockAnimals: Animal[] = [
 
 // Alerts sorted: risk first, then attention, within same level — by durationHours descending (longest first = most urgent)
 export const mockAlerts: Alert[] = [
-  { id: "23", riskLevel: "risk", message: "Активность снижена 48 часов", durationHours: 48 },
-  { id: "7", riskLevel: "risk", message: "Активность снижена 36 часов", durationHours: 36 },
+  { id: "23", riskLevel: "risk", message: "Активность снижена на 40%", durationHours: 48 },
+  { id: "7", riskLevel: "risk", message: "Активность снижена на 32%", durationHours: 36 },
   { id: "112", riskLevel: "attention", message: "Нестабильность 24 часа", durationHours: 24 },
   { id: "45", riskLevel: "attention", message: "Отделяется от стада", durationHours: 18 },
   { id: "88", riskLevel: "attention", message: "Меньше ест 2 дня", durationHours: 48 },
-  { id: "56", riskLevel: "attention", message: "Нетипичное движение", durationHours: 12 },
+  { id: "56", riskLevel: "attention", message: "Нетипичное поведение", durationHours: 12 },
 ];
 
 // 184 normal + 4 attention + 2 risk = 190 total (some normal animals not listed individually)
