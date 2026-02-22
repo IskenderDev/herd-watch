@@ -77,5 +77,6 @@ Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/c
 1. Create `.env` from `.env.example` and set `OPENROUTER_API_KEY`.
 2. Run backend proxy: `npm run server`.
 3. Run frontend: `npm run dev`.
+4. After changing env variables, restart the backend server.
 
-Frontend sends requests to `/api/ai/chat`, and the proxy forwards them to OpenRouter using model `deepseek/deepseek-r1-0528:free`.
+Frontend sends requests to `/api/ai/chat`, and only server code calls OpenRouter (`deepseek/deepseek-r1-0528:free`).

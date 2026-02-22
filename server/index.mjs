@@ -15,14 +15,11 @@ app.post("/api/ai/chat", async (req, res) => {
       return res.status(400).json({ error: "Некорректный формат запроса." });
     }
 
-    const message = await callOpenRouterChat(payload);
-    return res.json({ message });
-  } catch (error) {
-    console.error("AI chat error", error);
-    return res.status(500).json({
-      error:
-        "Не удалось получить ответ от ИИ. Проверьте подключение и попробуйте снова.",
-    });
+    const reply = await callOpenRouterChat(payload);
+    return res.json({ message: reply });
+  } catch (e) {
+    console.error("[AI ERROR]", e);
+    return res.status(500).json({ error: e instanceof Error ? e.message : "AI error" });
   }
 });
 

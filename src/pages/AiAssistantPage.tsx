@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import {
   AiMessage,
   ChatContextType,
-  callOpenRouterChat,
+  requestAiChat,
 } from "@/shared/api/openRouterClient";
 
 type AiChatRouteState = {
@@ -67,7 +67,7 @@ export default function AiAssistantPage() {
     setLastQuestion(content);
 
     try {
-      const aiMessage = await callOpenRouterChat({
+      const aiMessage = await requestAiChat({
         contextType,
         cowId: state.cowId,
         cowSummary: state.cowSummary,

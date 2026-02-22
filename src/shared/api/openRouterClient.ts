@@ -19,19 +19,18 @@ export interface ChatResponsePayload {
   message: AiMessage;
 }
 
-export async function callOpenRouterChat(payload: ChatRequestPayload): Promise<AiMessage> {
-  const response = await fetch("/api/ai/chat", {
+export async function requestAiChat(payload: ChatRequestPayload): Promise<AiMessage> {
+  const res = await fetch("/api/ai/chat", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
 
-  if (!response.ok) {
-    const data = await response.json().catch(() => ({}));
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
     throw new Error(data?.error || "Не удалось получить ответ от ИИ. Попробуйте еще раз.");
   }
 
-  const data: ChatResponsePayload = await response.json();
+  const data: ChatResponsePayload = await res.json();
   return data.message;
 }
-
