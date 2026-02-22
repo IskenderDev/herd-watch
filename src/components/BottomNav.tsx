@@ -23,9 +23,10 @@ export default function BottomNav() {
               key={item.path}
               to={item.path}
               className={clsx(
-                "flex items-center gap-2 px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-200",
-                "hover:text-foreground",
-                isActive && "rounded-full bg-green-600 px-4 py-2 text-white",
+                "flex flex-col items-center gap-1 px-3 py-1 text-xs transition-all duration-200",
+                isActive
+                  ? "rounded-full bg-green-600 px-4 py-1 text-white"
+                  : "text-gray-500 hover:text-foreground",
               )}
             >
               <Icon size={16} />

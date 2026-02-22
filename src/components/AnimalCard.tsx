@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { Activity, AlertCircle, TrendingDown, Users, Utensils } from "lucide-react";
+import { Activity, AlertCircle, TrendingDown, Users, UtensilsCrossed } from "lucide-react";
 import { Alert } from "@/types/animal";
 import StatusBadge from "./StatusBadge";
 
@@ -11,32 +11,34 @@ interface AnimalCardProps {
 function getReasonIcon(message: string) {
   const normalized = message.toLowerCase();
 
-  if (normalized.includes("ест")) return Utensils;
+  if (normalized.includes("ест")) return UtensilsCrossed;
   if (normalized.includes("отдел")) return Users;
-  if (normalized.includes("нестабил")) return AlertCircle;
-  if (normalized.includes("сниж") || normalized.includes("пад")) return TrendingDown;
+  if (normalized.includes("нестабил") || normalized.includes("нетипич")) return AlertCircle;
+  if (normalized.includes("сниж") || normalized.includes("пад")) return Activity;
 
-  return Activity;
+  return TrendingDown;
 }
 
 export default function AnimalCard({ alert, onClick }: AnimalCardProps) {
   const ReasonIcon = getReasonIcon(alert.message);
+  const isRisk = alert.riskLevel === "risk";
 
   return (
     <button
       onClick={onClick}
       className={clsx(
-        "w-full rounded-2xl border bg-card px-4 py-3 text-left shadow-sm",
-        "transition-all duration-200 hover:scale-[1.02]",
-        alert.riskLevel === "risk" ? "border-l-4 border-l-red-700" : "border-l-4 border-l-orange-600",
+        "w-full rounded-2xl border-l-4 px-4 py-3 text-left shadow-sm transition-all duration-200 md:hover:scale-[1.01]",
+        isRisk
+          ? "border-red-500 bg-red-50 text-red-700"
+          : "border-orange-500 bg-orange-50 text-orange-700",
       )}
     >
       <div className="flex items-start justify-between gap-4">
         <p className="text-base font-bold text-foreground">№{alert.id}</p>
         <StatusBadge level={alert.riskLevel} />
       </div>
-      <div className="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
-        <ReasonIcon size={18} className="text-gray-500" />
+      <div className="mt-2 flex items-center text-sm text-muted-foreground">
+        <ReasonIcon size={18} className="mr-2 text-gray-500" />
         <span>{alert.message}</span>
       </div>
     </button>

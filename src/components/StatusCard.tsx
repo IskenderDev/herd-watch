@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { AlertTriangle, CheckCircle, Flame } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Flame } from "lucide-react";
 
 export type DashboardFilter = "all" | "normal" | "warning" | "risk";
 
@@ -14,19 +14,19 @@ interface StatusCardProps {
 export default function StatusCard({ count, label, filterValue, isActive, onClick }: StatusCardProps) {
   const styles = {
     normal: {
-      icon: CheckCircle,
-      card: "bg-green-50 text-green-700",
-      ring: "ring-green-200",
+      icon: CheckCircle2,
+      base: "bg-green-50 text-green-700",
+      active: "bg-green-700 text-white ring-green-200",
     },
     warning: {
       icon: AlertTriangle,
-      card: "bg-orange-50 text-orange-600",
-      ring: "ring-orange-200",
+      base: "bg-orange-50 text-orange-700",
+      active: "bg-orange-600 text-white ring-orange-200",
     },
     risk: {
       icon: Flame,
-      card: "bg-red-50 text-red-700",
-      ring: "ring-red-200",
+      base: "bg-red-50 text-red-700",
+      active: "bg-red-700 text-white ring-red-200",
     },
   };
 
@@ -36,16 +36,16 @@ export default function StatusCard({ count, label, filterValue, isActive, onClic
     <button
       onClick={onClick}
       className={clsx(
-        "rounded-2xl p-4 text-left shadow-sm transition-all duration-200 hover:scale-[1.02] cursor-pointer",
-        styles[filterValue].card,
-        isActive ? `ring-2 ${styles[filterValue].ring}` : "ring-1 ring-transparent",
+        "cursor-pointer rounded-2xl p-4 text-left shadow-sm transition-all duration-200 md:hover:scale-[1.01]",
+        isActive ? styles[filterValue].active : styles[filterValue].base,
+        isActive ? "ring-2 ring-offset-2" : "ring-1 ring-transparent",
       )}
     >
       <div className="flex items-start justify-between gap-2">
         <div className="text-3xl font-extrabold leading-none">{count}</div>
-        <Icon size={18} className="opacity-80" />
+        <Icon size={18} className={clsx("opacity-80", isActive && "opacity-100")} />
       </div>
-      <div className="mt-2 text-xs font-semibold uppercase tracking-wide opacity-90">{label}</div>
+      <div className="mt-2 text-xs font-semibold uppercase tracking-wide">{label}</div>
     </button>
   );
 }
